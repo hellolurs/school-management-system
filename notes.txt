@@ -1,0 +1,28 @@
+Fitur:
+
+1. Buat fitur login dan logout.
+2. Buat fitur Manage Siswa (CRUD).
+3. Buat fitur Manage Kelas (CRUD).
+4. Buat fitur Manage Guru (CRUD).
+5. Munculkan List Siswa berdasarkan kelasnya dalam 1 table tanpa filter dan kelas tidak boleh muncul lebih dari sekali.
+6. Munculkan List Siswa, Kelas dan Guru dalam 1 table tanpa filter dan kelas tidak boleh muncul lebih dari sekali.
+7. Munculkan List Guru berdasarkan Kelasnya dalam 1 table tanpa filter dan kelas tidak boleh muncul lebih dari sekali.
+
+
+
+
+Progres Pengerjaan: (pengerjaan belum tuntas)
+
+1. Fitur login logout sudah dibuat, data untuk login masih statis
+2. Sistem penyimpanan data menggunakan state di memory, belum integrasi database
+3. API CRUD Siswa sudah dibuat, tetapi integrasi front-end belum tuntas
+4. API CRUD Kelas sudah dibuat, tetapi integrasi front-end belum tuntas
+5. API CRUD Guru sudah dibuat, tetapi integrasi front-end belum tuntas
+6. Sudah dapat memunculkan tabel Guru dan relasi kelasnya di front-end
+7. Sudah dapat memunculkan tabel Siswa dengan relasi kelasnya di front-end
+
+
+
+Konfigurasi:
+
+Terdapat data pendukung berada di .env seperti email dan password untuk login, serta secret untuk jwt, contohnya berada di .env.example.
