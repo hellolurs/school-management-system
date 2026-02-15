@@ -1,39 +1,31 @@
 import { studentService } from "@/applications/container"
-import { AuthError, ErrorInterface } from "@/infrastructure/helper/error"
-import { validateToken } from "@/infrastructure/helper/validate-token"
+import responseApiHandler from "@/infrastructure/helper/rensponse-api-handler"
+import tokenValidationApiHandler from "@/infrastructure/helper/token-validation-api-handler"
 import { NextRequest } from "next/server"
 
 export async function GET(request: NextRequest) {
-    // const cookieStore = await cookies()
-    // const refresh_token = cookieStore.get('token')
+    return await responseApiHandler(
+        async () => {
+            tokenValidationApiHandler(request)
 
-    //token validation
-    const token = request.headers.get('authorization')
-    const tokenPayload = validateToken(token)
-    if (!tokenPayload) return Response.json({ message: 'error', error: 'Unauthorized' }, { status: 401 })
+            const data = await studentService.getAll()
 
-    //
-    const data = await studentService.getAll()
-
-
-    return Response.json({ message: 'success', data }, { status: 200 })
+            return { successCode: 200, data }
+        }
+    )
 }
 
 export async function POST(request: NextRequest) {
-    try {
-        //token validation
-        const token = request.headers.get('authorization')
-        if (!validateToken(token)) throw new AuthError('Unauthorized')
+    return await responseApiHandler(
+        async () => {
+            tokenValidationApiHandler(request)
 
-        const body = await request.json();
+            const body = await request.json();
 
-        const data = await studentService.create(body)
+            const item = await studentService.create(body)
 
-        return Response.json({ message: 'success', data }, { status: 201 })
-    } catch (error) {
-        const _error = error as ErrorInterface
-
-        return Response.json({ message: _error.message, errors: _error.details }, { status: _error.code })
-    }
+            return { successCode: 201, item }
+        }
+    )
 
 }
