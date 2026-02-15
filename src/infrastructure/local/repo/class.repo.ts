@@ -12,7 +12,7 @@ export default class ClassRepo {
 
         //check name duplication
         const findClass = this.classData.find(item => item.name.toLowerCase() == data.name.toLowerCase())
-        if (findClass) throw new DatabaseError('Nama kelas tidak boleh sama')
+        if (findClass) return null
 
         //insert new class
         const newClass: Class = {
@@ -28,6 +28,7 @@ export default class ClassRepo {
 
     async update(id: number, data: Partial<CreateClass>) {
         const findClassIndex = this.classData.findIndex(item => item.id == id)
+
         //check data
         if (findClassIndex < 0) throw new NotFoundError(`Kelas dengan id ${id} tidak ditemukan`)
 
@@ -54,7 +55,7 @@ export default class ClassRepo {
     async delete(id: number) {
         const findClassIndex = this.classData.findIndex(item => item.id == id)
 
-        if (findClassIndex < 0) throw new NotFoundError(`Kelas dengan id ${id} tidak ditemukan`)
+        if (findClassIndex < 0) return null
 
         //detele from data
         this.classData.splice(findClassIndex, 1)
@@ -84,5 +85,6 @@ export default class ClassRepo {
     async getById(id: number) {
         return this.classData.find(item => item.id == id)
     }
+
 
 }

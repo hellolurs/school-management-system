@@ -7,7 +7,9 @@ export default class TeacherRepo {
 
     public async insert(data: CreateTeacher) {
         //check class
-        if (data?.class_id && !classData.find(item => item.id == data.class_id)) throw new DatabaseError('Relasi id kelas tidak ditemukan')
+        if (data?.class_id) {
+            if (!classData.find(item => item.id == data.class_id)) throw new DatabaseError('Id kelas tidak ditemukan')
+        }
 
         //find identity_number duplication
         // for (const [, value] of teacherData.entries()) {
@@ -35,7 +37,7 @@ export default class TeacherRepo {
 
         //check class
         if (data?.class_id) {
-            if (!classData.find(item => item.id == data.class_id)) throw new DatabaseError('Relasi id kelas tidak ditemukan')
+            if (!classData.find(item => item.id == data.class_id)) throw new DatabaseError('Id kelas tidak ditemukan')
         }
 
         //find identity_number duplication
@@ -71,8 +73,6 @@ export default class TeacherRepo {
     }
 
     public async delete(id: number) {
-        if (!teacherData.has(id)) throw new NotFoundError(`Data guru dengan id ${id} tidak ditemukan`)
-
         teacherData.delete(id)
 
         return { id }

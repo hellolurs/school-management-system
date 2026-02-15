@@ -1,33 +1,20 @@
-import schemaValidation from "@/infrastructure/helper/schema-validation";
 import { CreateClass } from "@/infrastructure/interfaces/class";
 import { Student } from "@/infrastructure/interfaces/student";
 import { Teacher } from "@/infrastructure/interfaces/teacher";
 import ClassRepo from "@/infrastructure/local/repo/class.repo";
 import StudentRepo from "@/infrastructure/local/repo/student.repo";
 import TeacherRepo from "@/infrastructure/local/repo/teacher.repo";
-import z from "zod";
 
 export default class ClassService {
 
-    constructor(private classRepo: ClassRepo, private studentRepo: StudentRepo, private teacherRepo: TeacherRepo) { }
+    constructor(private classRepo: ClassRepo, private studentRepo: StudentRepo, private teacherRepo: TeacherRepo) {
+    }
 
     public async create(data: CreateClass) {
-
-        schemaValidation(data, {
-            name: z.string(),
-            description: z.string().optional()
-        })
-
         return await this.classRepo.insert(data)
     }
 
     public async update(id: number, data: Partial<CreateClass>) {
-
-        schemaValidation(data, {
-            name: z.string().optional(),
-            description: z.string().optional()
-        })
-
         return await this.classRepo.update(id, data)
     }
 
@@ -35,7 +22,7 @@ export default class ClassService {
         return await this.classRepo.delete(id)
     }
 
-    public async getAll(query?: { include: string }) {
+    public async getAll(query?: { include: string[] }) {
         const data = await this.classRepo.getAll()
 
         let newData = data
@@ -56,6 +43,8 @@ export default class ClassService {
             newData = newData.map(item => ({ ...item, teachers: teacherByClass.get(item.id) }))
         }
         if (query?.include.includes('students')) {
+            // //@ts-expect-error add item in object that not have the type
+            // data['students'] = []
             const students = await this.studentRepo.getAll()
             const studentsByClass = new Map<number, Student[]>()
             students.forEach(item => {

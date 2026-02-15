@@ -1,31 +1,37 @@
 import { teacherService } from "@/applications/container";
-import responseApiHandler from "@/infrastructure/helper/rensponse-api-handler";
-import tokenValidationApiHandler from "@/infrastructure/helper/token-validation-api-handler";
+import { AuthError, ErrorInterface } from "@/infrastructure/helper/error";
+import { validateToken } from "@/infrastructure/helper/validate-token";
 import { CreateTeacher } from "@/infrastructure/interfaces/teacher";
 import { NextRequest } from "next/server";
 
-export const GET = async (request: NextRequest) => (
-    await responseApiHandler(
-        async () => {
-            tokenValidationApiHandler(request)
+export async function GET(request: NextRequest) {
+    //token validation
+    const token = request.headers.get('authorization')
+    const tokenPayload = validateToken(token)
+    if (!tokenPayload) return Response.json({ message: 'error', error: 'Unauthorized' }, { status: 401 })
 
-            const data = await teacherService.getAll()
+    //
+    const data = await teacherService.getAll()
 
-            return { successCode: 200, data }
-        }
-    )
-)
 
-export const POST = async (request: NextRequest) => (
-    await responseApiHandler(
-        async () => {
-            tokenValidationApiHandler(request)
+    return Response.json({ message: 'success', data }, { status: 200 })
+}
 
-            const body = await request.json()
+export async function POST(request: NextRequest) {
+    try {
+        //token validation
+        const token = request.headers.get('authorization')
+        if (!validateToken(token)) throw new AuthError('Unauthorized')
 
-            const item = await teacherService.create(body as CreateTeacher)
+        const body = await request.json();
 
-            return { successCode: 201, item }
-        }
-    )
-)
+        const data = await teacherService.create(body as CreateTeacher)
+
+        return Response.json({ message: 'success', data }, { status: 201 })
+    } catch (error) {
+        const _error = error as ErrorInterface
+
+        return Response.json({ message: _error.message, errors: _error.details }, { status: _error.code })
+    }
+
+}

@@ -10,7 +10,7 @@ export default class StudentRepo {
         //check class
         if (data?.class_id) {
             const findClass = classData.find(item => item.id == data.class_id)
-            if (!findClass) throw new DatabaseError('Relasi id kelas tidak ditemukan')
+            if (!findClass) throw new DatabaseError('Id kelas tidak ditemukan')
         }
 
         //check identity_number duplication
@@ -38,7 +38,7 @@ export default class StudentRepo {
         //check class relation
         if (data?.class_id) {
             const findClass = classData.find(item => item.id == data.class_id)
-            if (!findClass) throw new DatabaseError('Relasi id kelas tidak ditemukan')
+            if (!findClass) throw new DatabaseError('Id kelas tidak ditemukan')
         }
 
         //check identity_number duplication
