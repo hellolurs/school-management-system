@@ -70,6 +70,10 @@ export default class TeacherRepo {
         return teacherDataWithClass
     }
 
+    public async getById(id: number) {
+        return teacherData.get(id)
+    }
+
     public async delete(id: number) {
         if (!teacherData.has(id)) throw new NotFoundError(`Data guru dengan id ${id} tidak ditemukan`)
 

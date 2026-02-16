@@ -1,3 +1,4 @@
+import { NotFoundError } from "@/infrastructure/helper/error";
 import schemaValidation from "@/infrastructure/helper/schema-validation";
 import { CreateStudent } from "@/infrastructure/interfaces/student";
 import StudentRepo from "@/infrastructure/local/repo/student.repo";
@@ -45,6 +46,14 @@ export default class StudentService {
 
     public async getAll() {
         return await this.studentRepository.getAllWithClass()
+    }
+
+    public async getById(id: number) {
+        const student = await this.studentRepository.getById(id)
+
+        if (!student) throw new NotFoundError(`Siswa dengan id ${id} tidak ditemukan`)
+
+        return student
     }
 
     public async delete(id: number) {

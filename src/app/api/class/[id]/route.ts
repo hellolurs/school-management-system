@@ -4,6 +4,24 @@ import responseApiHandler from "@/infrastructure/helper/rensponse-api-handler";
 import tokenValidationApiHandler from "@/infrastructure/helper/token-validation-api-handler";
 import { NextRequest } from "next/server";
 
+
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+    return await responseApiHandler(
+        async () => {
+            tokenValidationApiHandler(request)
+
+            //validate id
+            const id = Number((await params).id)
+            if (isNaN(id)) throw new ValidationError('Invalid id')
+
+            const item = await classService.getById(id)
+
+            return { successCode: 200, item }
+        }
+    )
+}
+
+
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     return await responseApiHandler(
         async () => {

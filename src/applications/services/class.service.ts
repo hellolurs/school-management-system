@@ -73,4 +73,12 @@ export default class ClassService {
 
         return newData
     }
+
+    public async getById(id: number) {
+        const clas = await this.classRepo.getById(id)
+
+        if (!clas) throw new Error(`Kelas dengan id ${id} tidak ditemukan`)
+
+        return clas
+    }
 }

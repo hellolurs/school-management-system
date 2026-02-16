@@ -1,3 +1,4 @@
+import { NotFoundError } from "@/infrastructure/helper/error";
 import schemaValidation from "@/infrastructure/helper/schema-validation";
 import { CreateTeacher, TeacherWithClass, UpdateTeacher } from "@/infrastructure/interfaces/teacher";
 import ClassRepo from "@/infrastructure/local/repo/class.repo";
@@ -48,6 +49,14 @@ export default class TeacherService {
 
     public async getAll() {
         return await this.teacherRepo.getAllWithClass()
+    }
+
+    public async getById(id: number) {
+        const teacher = await this.teacherRepo.getById(id)
+
+        if (!teacher) throw new NotFoundError(`Guru dengan id ${id} tidak ditemukan`)
+            
+        return teacher
     }
 
 
