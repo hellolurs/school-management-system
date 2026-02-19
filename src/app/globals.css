@@ -24,3 +24,51 @@ body {
   /* color: var(--foreground); */
   font-family: Arial, Helvetica, sans-serif;
 }
+
+table.table-data {
+  tr {
+    th {
+      padding: 12px;
+      background-color: #dddddd;
+    }
+
+    /* th:first-of-type {
+      border-radius: 16px 0 0 0;
+    }
+
+    th:last-of-type {
+      border-radius: 0 16px 0 0;
+    } */
+
+    td {
+      border-bottom: 1px solid #dddddd;
+      border-left: 1px solid #dddddd;
+      padding: 12px;
+      background-color: #fafafa;
+    }
+
+    td:first-child {
+      border-left: none;
+    }
+  }
+
+  tr:nth-last-child(1) > td {
+    border-bottom: none;
+  }
+}
+
+input,
+select {
+  @apply bg-blue-50 p-2 w-full rounded-md focus:outline-blue-500 focus:outline-1 border border-blue-100;
+}
+
+select {
+  padding: 11px;
+}
+
+form {
+  label {
+    display: block;
+    margin-bottom: 4px;
+  }
+}

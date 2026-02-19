@@ -1,4 +1,4 @@
-import Navigation from "@/app/_components/Navigation";
+import Navigation from "@/app/_components/navigation";
 
 
 export default function DashboardLayout({
@@ -9,7 +9,7 @@ export default function DashboardLayout({
     return (
         <div>
             <Navigation />
-            <main className="p-5">
+            <main className="p-8 flex-1">
                 {children}
             </main>
         </div>
